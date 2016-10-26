@@ -10,9 +10,11 @@ public class Movie implements Serializable {
     @Expose
     String title;
     @Expose
-    String popularity;
+    double popularity;
     @Expose
-    String vote_avarage;
+    double vote_average;
+    @Expose
+    String backdrop_path;
 
     public String getTitle() {
         return title;
@@ -22,19 +24,27 @@ public class Movie implements Serializable {
         this.title = title;
     }
 
-    public String getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(String popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 
-    public String getVote_avarage() {
-        return vote_avarage;
+    public double getVote_average() {
+        return vote_average;
     }
 
-    public void setVote_avarage(String vote_avarage) {
-        this.vote_avarage = vote_avarage;
+    public void setVote_average(double vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public void setBackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
     }
 }

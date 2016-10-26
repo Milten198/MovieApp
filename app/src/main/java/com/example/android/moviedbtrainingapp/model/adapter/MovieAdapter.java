@@ -6,25 +6,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.model.Movie;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.example.android.moviedbtrainingapp.model.utils.Constants.BACK_DROP;
+import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumber;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
     LayoutInflater inflater;
     Context context;
-    List<Movie> mockMovies;
+    List<Movie> movies = Collections.EMPTY_LIST;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
+    public MovieAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
-        this.mockMovies = movies;
     }
 
     @Override
@@ -36,26 +39,34 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     @Override
     public void onBindViewHolder(MovieHolder holder, int position) {
-        Movie currentMovie = mockMovies.get(position);
+        Movie currentMovie = movies.get(position);
         holder.titleView.setText(currentMovie.getTitle());
-        holder.popularityView.setText(currentMovie.getPopularity());
-        holder.avarageView.setText(currentMovie.getVote_avarage());
+        holder.popularityView.setText("Popularity: " + twoDecimalNumber(currentMovie.getPopularity()));
+        holder.avarageView.setText("Average vote: " + twoDecimalNumber(currentMovie.getVote_average()));
+        Glide.with(context).load(BACK_DROP.BACK_DROP_PATH + currentMovie.getBackdrop_path())
+                .into(holder.backDropView);
     }
 
     @Override
     public int getItemCount() {
-        return mockMovies.size();
+        return movies.size();
+    }
+
+    public void getMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     class MovieHolder extends RecyclerView.ViewHolder {
 
         TextView titleView, popularityView, avarageView;
+        ImageView backDropView;
 
         public MovieHolder(View itemView) {
             super(itemView);
             titleView = (TextView) itemView.findViewById(R.id.movieTitle);
             popularityView = (TextView) itemView.findViewById(R.id.moviePopularity);
             avarageView = (TextView) itemView.findViewById(R.id.movieAvarageVote);
+            backDropView = (ImageView) itemView.findViewById(R.id.movieImage);
         }
     }
 }
