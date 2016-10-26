@@ -24,10 +24,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     LayoutInflater inflater;
     Context context;
     List<Movie> movies = Collections.EMPTY_LIST;
+    MovieClickListener movieListener;
 
-    public MovieAdapter(Context context) {
+    public MovieAdapter(Context context, MovieClickListener listener) {
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.movieListener = listener;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         holder.titleView.setText(currentMovie.getTitle());
         holder.popularityView.setText("Popularity: " + twoDecimalNumber(currentMovie.getPopularity()));
         holder.avarageView.setText("Average vote: " + twoDecimalNumber(currentMovie.getVote_average()));
-        Glide.with(context).load(BACK_DROP.BACK_DROP_PATH + currentMovie.getBackdrop_path())
+        Glide.with(context).load(BACK_DROP.BACK_DROP_PATH + currentMovie.getPoster_path())
                 .into(holder.backDropView);
     }
 
@@ -56,7 +58,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         this.movies = movies;
     }
 
-    class MovieHolder extends RecyclerView.ViewHolder {
+    public Movie getSelectedMovie(int position) {
+        return movies.get(position);
+    }
+
+    class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView titleView, popularityView, avarageView;
         ImageView backDropView;
@@ -67,6 +73,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
             popularityView = (TextView) itemView.findViewById(R.id.moviePopularity);
             avarageView = (TextView) itemView.findViewById(R.id.movieAvarageVote);
             backDropView = (ImageView) itemView.findViewById(R.id.movieImage);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            movieListener.itemClicked(getAdapterPosition());
+        }
+    }
+
+    public interface MovieClickListener {
+         void itemClicked(int position);
     }
 }

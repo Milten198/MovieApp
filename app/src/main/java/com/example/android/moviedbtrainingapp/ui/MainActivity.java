@@ -1,10 +1,12 @@
-package com.example.android.moviedbtrainingapp;
+package com.example.android.moviedbtrainingapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
 import com.example.android.moviedbtrainingapp.model.Movie;
 import com.example.android.moviedbtrainingapp.model.MoviesResponse;
@@ -18,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieClickListener {
 
     RecyclerView movieRecycle;
     MovieAdapter adapter;
@@ -50,10 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void setAdapter(List<Movie> movies) {
         movieRecycle = (RecyclerView) findViewById(R.id.movieList);
-        adapter = new MovieAdapter(this);
+        adapter = new MovieAdapter(this, this);
         adapter.getMovies(movies);
         movieRecycle.setAdapter(adapter);
         movieRecycle.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void itemClicked(int position) {
+        Movie selectedMovie = adapter.getSelectedMovie(position);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra(Constants.MOVIE_REFERENCE.MOVIE, selectedMovie);
+        startActivity(intent);
     }
 }
 

@@ -15,6 +15,37 @@ public class Movie implements Serializable {
     double vote_average;
     @Expose
     String backdrop_path;
+    @Expose
+    String poster_path;
+    @Expose
+    String overview;
+
+    public int getVote_count() {
+        return vote_count;
+    }
+
+    public void setVote_count(int vote_count) {
+        this.vote_count = vote_count;
+    }
+
+    @Expose
+    int vote_count;
+
+    public String getPoster_path() {
+        return poster_path;
+    }
+
+    public void setPoster_path(String poster_path) {
+        this.poster_path = poster_path;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
 
     public String getTitle() {
         return title;
