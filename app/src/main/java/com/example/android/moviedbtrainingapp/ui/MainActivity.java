@@ -36,12 +36,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         allMovies = new ArrayList<>();
+        downloadMoviesData();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        downloadMoviesData();
+
     }
 
     public void downloadMoviesData() {
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 List<Movie> moviesList = response.body().getResults();
                 allMovies.addAll(moviesList);
                 setAdapter(allMovies);
+                loading = false;
             }
 
             @Override
@@ -74,13 +76,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     totalItemCount = movieLinearManager.getItemCount();
                     pastVisiblesItems = movieLinearManager.findFirstVisibleItemPosition();
 
-                    if (loading)
+                    if (!loading)
                     {
                         if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
                         {
                             page++;
+                            loading = true;
                             downloadMoviesData();
-                            adapter.notifyDataSetChanged();
                         }
                     }
                 }
