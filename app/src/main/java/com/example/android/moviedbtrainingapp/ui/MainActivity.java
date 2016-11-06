@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
@@ -30,12 +31,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     int page = 1;
     List<Movie> allMovies;
+    LinearLayoutManager movieLinearManager;
+    ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         allMovies = new ArrayList<>();
+        config();
         downloadMoviesData();
     }
 
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 List<Movie> moviesList = response.body().getResults();
                 allMovies.addAll(moviesList);
-                setAdapter(allMovies);
+                endlessList(allMovies);
                 loading = false;
             }
 
@@ -64,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         });
     }
 
-    public void setAdapter(List<Movie> movies) {
-        movieRecycle = (RecyclerView) findViewById(R.id.movieList);
-        final LinearLayoutManager movieLinearManager = new LinearLayoutManager(this);
+    public void endlessList(List<Movie> movies) {
         movieRecycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     {
                         if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
                         {
+                            spinner.setVisibility(View.VISIBLE);
                             page++;
                             loading = true;
                             downloadMoviesData();
@@ -88,12 +91,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 }
             }
         });
-        adapter = new MovieAdapter(this, this);
         adapter.getMovies(movies);
+        adapter.notifyDataSetChanged();
+        spinner.setVisibility(View.GONE);
+    }
+
+
+    public void config() {
+        spinner = (ProgressBar) findViewById(R.id.recyclerProgressBar);
+        movieRecycle = (RecyclerView) findViewById(R.id.movieList);
+        movieLinearManager = new LinearLayoutManager(this);
+        adapter = new MovieAdapter(this, this);
         movieRecycle.setAdapter(adapter);
         movieRecycle.setLayoutManager(movieLinearManager);
         movieRecycle.setHasFixedSize(true);
     }
+
+
 
     @Override
     public void itemClicked(int position) {
