@@ -8,7 +8,7 @@ public class Constants {
     }
 
     public static final class API_KEY {
-        public static final String API_KEY = "8757222b80658879874f4a7a63d8bfb3";
+        public static final String API_KEY = "api_key";
     }
 
     public static final class BACK_DROP {
