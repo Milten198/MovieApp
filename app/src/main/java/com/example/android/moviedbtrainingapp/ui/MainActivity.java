@@ -1,12 +1,16 @@
 package com.example.android.moviedbtrainingapp.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
@@ -43,12 +47,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         downloadMoviesData();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
     public void downloadMoviesData() {
         MovieCallback callback = MovieRestManager.getClient().create(MovieCallback.class);
         Call<MoviesResponse> call = callback.getTopRatedMovies(Constants.API_KEY.API_KEY, page);
@@ -72,20 +70,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieRecycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if(dy > 0)
-                {
+                if (dy > 0) {
                     visibleItemCount = movieLinearManager.getChildCount();
                     totalItemCount = movieLinearManager.getItemCount();
                     pastVisiblesItems = movieLinearManager.findFirstVisibleItemPosition();
 
-                    if (!loading)
-                    {
-                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                        {
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && isNetworkAvailable() != null) {
                             spinner.setVisibility(View.VISIBLE);
                             page++;
                             loading = true;
                             downloadMoviesData();
+                        } else {
+
                         }
                     }
                 }
@@ -107,10 +104,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieRecycle.setHasFixedSize(true);
     }
 
+    public NetworkInfo isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getActiveNetworkInfo();
+    }
 
 
     @Override
     public void itemClicked(int position) {
+        if (isNetworkAvailable() != null) {
+            Toast.makeText(this, "Internet connection available", Toast.LENGTH_LONG)
+                    .show();
+        } else {
+
+        }
         Movie selectedMovie = adapter.getSelectedMovie(position);
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra(Constants.MOVIE_REFERENCE.MOVIE, selectedMovie);
