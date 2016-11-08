@@ -10,8 +10,9 @@ import android.widget.ProgressBar;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
-import com.example.android.moviedbtrainingapp.model.Movie;
-import com.example.android.moviedbtrainingapp.model.MoviesResponse;
+import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
+import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
+import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
 import com.example.android.moviedbtrainingapp.model.adapter.MovieAdapter;
 import com.example.android.moviedbtrainingapp.model.callback.MovieCallback;
 import com.example.android.moviedbtrainingapp.model.utils.Constants;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void downloadMoviesData() {
         MovieCallback callback = MovieRestManager.getClient().create(MovieCallback.class);
         Call<MoviesResponse> call = callback.getTopRatedMovies(Constants.API_KEY.API_KEY, page);
+      //  Call<MovieDetailsResponse> callDetails = callback.getMovieDetails(278, Constants.API_KEY.API_KEY);
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {

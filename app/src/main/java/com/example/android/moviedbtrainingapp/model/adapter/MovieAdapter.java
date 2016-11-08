@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.moviedbtrainingapp.R;
-import com.example.android.moviedbtrainingapp.model.Movie;
+import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
 
 import java.util.Collections;
 import java.util.List;

@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.moviedbtrainingapp.R;
-import com.example.android.moviedbtrainingapp.model.Movie;
+import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
 import com.example.android.moviedbtrainingapp.model.utils.Constants;
-import com.example.android.moviedbtrainingapp.model.utils.NumberRounder;
 
 import static com.example.android.moviedbtrainingapp.model.utils.Constants.MOVIE_REFERENCE.MOVIE;
 import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumber;
