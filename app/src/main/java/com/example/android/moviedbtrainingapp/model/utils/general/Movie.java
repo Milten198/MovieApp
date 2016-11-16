@@ -14,11 +14,17 @@ public class Movie implements Serializable {
     @Expose
     double vote_average;
     @Expose
-    String backdrop_path;
-    @Expose
     String poster_path;
     @Expose
-    String overview;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getVote_count() {
         return vote_count;
@@ -37,14 +43,6 @@ public class Movie implements Serializable {
 
     public void setPoster_path(String poster_path) {
         this.poster_path = poster_path;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
     }
 
     public String getTitle() {
@@ -69,13 +67,5 @@ public class Movie implements Serializable {
 
     public void setVote_average(double vote_average) {
         this.vote_average = vote_average;
-    }
-
-    public String getBackdrop_path() {
-        return backdrop_path;
-    }
-
-    public void setBackdrop_path(String backdrop_path) {
-        this.backdrop_path = backdrop_path;
     }
 }

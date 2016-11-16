@@ -10,7 +10,9 @@ import android.widget.ProgressBar;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
+import com.example.android.moviedbtrainingapp.model.utils.details.MovieCompanies;
 import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
+import com.example.android.moviedbtrainingapp.model.utils.details.MovieGenres;
 import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
 import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
 import com.example.android.moviedbtrainingapp.model.adapter.MovieAdapter;
@@ -47,13 +49,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     public void downloadMoviesData() {
         MovieCallback callback = MovieRestManager.getClient().create(MovieCallback.class);
         Call<MoviesResponse> call = callback.getTopRatedMovies(Constants.API_KEY.API_KEY, page);
-      //  Call<MovieDetailsResponse> callDetails = callback.getMovieDetails(278, Constants.API_KEY.API_KEY);
+        Call<MovieDetailsResponse> callDetails = callback.getMovieDetails(278, Constants.API_KEY.API_KEY);
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
@@ -114,8 +115,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void itemClicked(int position) {
         Movie selectedMovie = adapter.getSelectedMovie(position);
+        int movieId = selectedMovie.getId();
         Intent intent = new Intent(this, MovieDetailsActivity.class);
-        intent.putExtra(Constants.MOVIE_REFERENCE.MOVIE, selectedMovie);
+        intent.putExtra(Constants.MOVIE_REFERENCE.MOVIE, movieId);
         startActivity(intent);
     }
 }

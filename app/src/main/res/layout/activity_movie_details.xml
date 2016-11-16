@@ -34,6 +34,15 @@
                     android:text="Title"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
+                <TextView
+                    android:id="@+id/detailsTagline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="How much can you know about yourself if you've never been in a fight?"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,6 +81,32 @@
                         android:layout_marginTop="10dp"
                         android:text="Voted: 2222"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+                    <TextView
+                        android:id="@+id/detailsGenres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Genres"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/detailsReleaseDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Released"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/detailsRevenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Revenue"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
                 </LinearLayout>
 
 
@@ -88,10 +123,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-
-
-
 
 
 </LinearLayout>
