@@ -10,14 +10,12 @@ import android.widget.ProgressBar;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieCompanies;
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieGenres;
-import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
-import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
 import com.example.android.moviedbtrainingapp.model.adapter.MovieAdapter;
 import com.example.android.moviedbtrainingapp.model.callback.MovieCallback;
 import com.example.android.moviedbtrainingapp.model.utils.Constants;
+import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
+import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
+import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,16 +73,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieRecycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if(dy > 0)
-                {
+                if (dy > 0) {
                     visibleItemCount = movieLinearManager.getChildCount();
                     totalItemCount = movieLinearManager.getItemCount();
                     pastVisiblesItems = movieLinearManager.findFirstVisibleItemPosition();
 
-                    if (!loading)
-                    {
-                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-                        {
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             spinner.setVisibility(View.VISIBLE);
                             page++;
                             loading = true;
@@ -99,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         spinner.setVisibility(View.GONE);
     }
 
-
     public void config() {
         spinner = (ProgressBar) findViewById(R.id.recyclerProgressBar);
         movieRecycle = (RecyclerView) findViewById(R.id.movieList);
@@ -109,8 +103,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieRecycle.setLayoutManager(movieLinearManager);
         movieRecycle.setHasFixedSize(true);
     }
-
-
 
     @Override
     public void itemClicked(int position) {

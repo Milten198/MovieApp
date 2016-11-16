@@ -1,6 +1,5 @@
 package com.example.android.moviedbtrainingapp.model.utils.details;
 
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieGenres;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;

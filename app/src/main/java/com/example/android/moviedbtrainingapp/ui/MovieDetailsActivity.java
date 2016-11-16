@@ -16,7 +16,10 @@ import com.example.android.moviedbtrainingapp.model.utils.details.MovieCompanies
 import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
 import com.example.android.moviedbtrainingapp.model.utils.details.MovieGenres;
 
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +32,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     TextView title, averageVote, popularity, voted, overview, tagline, genres, released, revenue, companies;
     ImageView poster;
-    int movieId = 278;
+    int movieId;
     MovieDetailsResponse movieResponse;
     List<MovieGenres> genresList;
     List<MovieCompanies> companiesList;
@@ -38,9 +41,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
-//
-//        Intent intent = getIntent();
-//        int dupa = intent.getIntExtra(MOVIE, 0);
+
+        Intent intent = getIntent();
+        movieId = intent.getIntExtra(MOVIE, 278);
         configView();
 
         MovieCallback callback = MovieRestManager.getClient().create(MovieCallback.class);
@@ -61,20 +64,43 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void setData() {
+        Glide.with(this).load(Constants.BACK_DROP.BACK_DROP_PATH + movieResponse.getBackdrop_path())
+                .into(poster);
         title.setText(movieResponse.getOriginal_title());
         averageVote.setText("Average vote: " + twoDecimalNumber(movieResponse.getVote_average()));
         popularity.setText("Popularity: " + twoDecimalNumber(movieResponse.getPopularity()));
         voted.setText("Voted: " + movieResponse.getVote_count());
         overview.setText(movieResponse.getOverview());
         tagline.setText(movieResponse.getTagline());
-        revenue.setText(movieResponse.getRevenue() + "");
-        released.setText(movieResponse.getRelease_date());
-        Glide.with(this).load(Constants.BACK_DROP.BACK_DROP_PATH + movieResponse.getBackdrop_path())
-                .into(poster);
+        revenue.setText("Revenue: " + revenueFormat(movieResponse.getRevenue()));
+        released.setText("Released: " + movieResponse.getRelease_date());
+        genres.setText("Genres: " + fillGenres(genresList));
+        companies.setText("Production companies: " + fillCompanies(companiesList));
+    }
+
+    private String fillGenres(List<MovieGenres> movieGenres) {
+        String genres = null;
+        for (MovieGenres mg : movieGenres) {
+            genres = mg.getName() + " ";
+        }
+        return genres;
+    }
+
+    private String fillCompanies(List<MovieCompanies> movieCompanies) {
+        String companies = null;
+        for (MovieCompanies mc : movieCompanies) {
+            companies = mc.getName() + " ";
+        }
+        return companies;
+    }
+
+    private String revenueFormat(int revenue) {
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        format.setCurrency(Currency.getInstance(Locale.US));
+        return format.format(revenue);
     }
 
     private void configView() {
@@ -88,5 +114,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         genres = (TextView) findViewById(R.id.detailsGenres);
         released = (TextView) findViewById(R.id.detailsReleaseDate);
         revenue = (TextView) findViewById(R.id.detailsRevenue);
+        companies = (TextView) findViewById(R.id.detailsCompanies);
     }
 }
