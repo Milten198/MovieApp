@@ -22,4 +22,9 @@ public class Constants {
     public static final class Config {
         public static final String PACKAGE_NAME = "com.example.android.moviedbtrainingapp";
     }
+
+    public static final class MOVIES_ORDER {
+        public static final String TOP_MOVIES = "top_rated";
+        public static final String POPULAR_MOVIES = "popular";
+    }
 }
