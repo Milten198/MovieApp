@@ -21,6 +21,8 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,21 +32,32 @@ import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.t
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
-    TextView title, averageVote, popularity, voted, overview, tagline, genres, released, revenue, companies;
-    ImageView poster;
+
+    @BindView(R.id.detailsTitle) TextView title;
+    @BindView(R.id.detailsAverage) TextView averageVote;
+    @BindView(R.id.detailsPopularity) TextView popularity;
+    @BindView(R.id.detailsVoted) TextView voted;
+    @BindView(R.id.movieDescription) TextView overview;
+    @BindView(R.id.detailsTagline) TextView tagline;
+    @BindView(R.id.detailsGenres) TextView genres;
+    @BindView(R.id.detailsReleaseDate) TextView released;
+    @BindView(R.id.detailsRevenue) TextView revenue;
+    @BindView(R.id.detailsCompanies) TextView companies;
+    @BindView(R.id.moviePoster) ImageView poster;
+
     int movieId;
     MovieDetailsResponse movieResponse;
     List<MovieGenres> genresList;
     List<MovieCompanies> companiesList;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
-
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         movieId = intent.getIntExtra(MOVIE, 278);
-        configView();
 
         MovieCallback callback = MovieRestManager.getClient().create(MovieCallback.class);
         Call<MovieDetailsResponse> callDetails = callback.getMovieDetails(movieId, Constants.API_KEY.API_KEY);
@@ -103,17 +116,5 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return format.format(revenue);
     }
 
-    private void configView() {
-        title = (TextView) findViewById(R.id.detailsTitle);
-        averageVote = (TextView) findViewById(R.id.detailsAverage);
-        popularity = (TextView) findViewById(R.id.detailsPopularity);
-        voted = (TextView) findViewById(R.id.detailsVoted);
-        overview = (TextView) findViewById(R.id.movieDescription);
-        poster = (ImageView) findViewById(R.id.moviePoster);
-        tagline = (TextView) findViewById(R.id.detailsTagline);
-        genres = (TextView) findViewById(R.id.detailsGenres);
-        released = (TextView) findViewById(R.id.detailsReleaseDate);
-        revenue = (TextView) findViewById(R.id.detailsRevenue);
-        companies = (TextView) findViewById(R.id.detailsCompanies);
-    }
+
 }

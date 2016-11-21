@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
@@ -21,6 +22,8 @@ import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,7 +31,8 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieClickListener {
 
-    RecyclerView movieRecycle;
+    @BindView(R.id.movieList) RecyclerView movieRecycle;
+    @BindView(R.id.recyclerProgressBar) ProgressBar spinner;
     MovieAdapter adapter;
     private boolean loading = true;
     int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -38,9 +42,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     List<Movie> topRatedMovies;
     List<Movie> popularMovies;
     LinearLayoutManager movieLinearManager;
-    ProgressBar spinner;
     private String moviesOrder = Constants.MOVIES_ORDER.TOP_MOVIES;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_main);
         topRatedMovies = new ArrayList<>();
         popularMovies = new ArrayList<>();
+        ButterKnife.bind(this);
         config();
         downloadMoviesData();
     }
@@ -147,8 +150,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     public void config() {
-        spinner = (ProgressBar) findViewById(R.id.recyclerProgressBar);
-        movieRecycle = (RecyclerView) findViewById(R.id.movieList);
         movieLinearManager = new LinearLayoutManager(this);
         adapter = new MovieAdapter(this, this);
         movieRecycle.setAdapter(adapter);
