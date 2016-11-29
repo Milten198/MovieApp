@@ -23,9 +23,10 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.example.android.moviedbtrainingapp.model.utils.Constants.MOVIE_REFERENCE.MOVIE;
 import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumber;
@@ -33,17 +34,28 @@ import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.t
 public class MovieDetailsActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.detailsTitle) TextView title;
-    @BindView(R.id.detailsAverage) TextView averageVote;
-    @BindView(R.id.detailsPopularity) TextView popularity;
-    @BindView(R.id.detailsVoted) TextView voted;
-    @BindView(R.id.movieDescription) TextView overview;
-    @BindView(R.id.detailsTagline) TextView tagline;
-    @BindView(R.id.detailsGenres) TextView genres;
-    @BindView(R.id.detailsReleaseDate) TextView released;
-    @BindView(R.id.detailsRevenue) TextView revenue;
-    @BindView(R.id.detailsCompanies) TextView companies;
-    @BindView(R.id.moviePoster) ImageView poster;
+    @BindView(R.id.detailsTitle)
+    TextView title;
+    @BindView(R.id.detailsAverage)
+    TextView averageVote;
+    @BindView(R.id.detailsPopularity)
+    TextView popularity;
+    @BindView(R.id.detailsVoted)
+    TextView voted;
+    @BindView(R.id.movieDescription)
+    TextView overview;
+    @BindView(R.id.detailsTagline)
+    TextView tagline;
+    @BindView(R.id.detailsGenres)
+    TextView genres;
+    @BindView(R.id.detailsReleaseDate)
+    TextView released;
+    @BindView(R.id.detailsRevenue)
+    TextView revenue;
+    @BindView(R.id.detailsCompanies)
+    TextView companies;
+    @BindView(R.id.moviePoster)
+    ImageView poster;
 
     int movieId;
     MovieDetailsResponse movieResponse;
@@ -60,23 +72,28 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieId = intent.getIntExtra(MOVIE, 278);
 
         MovieCallback callback = MovieRestManager.getClient().create(MovieCallback.class);
-        Call<MovieDetailsResponse> callDetails = callback.getMovieDetails(movieId, Constants.API_KEY.API_KEY);
 
-        callDetails.enqueue(new Callback<MovieDetailsResponse>() {
-            @Override
-            public void onResponse(Call<MovieDetailsResponse> call, Response<MovieDetailsResponse> response) {
-                movieResponse = response.body();
-                genresList = response.body().getGenres();
-                companiesList = response.body().getProduction_companies();
+        Observable<MovieDetailsResponse> movieDetails = callback.getMovieDetails(movieId, Constants.API_KEY.API_KEY);
+        movieDetails.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieDetailsResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        setData();
+                    }
 
-                setData();
-            }
+                    @Override
+                    public void onError(Throwable e) {
 
-            @Override
-            public void onFailure(Call<MovieDetailsResponse> call, Throwable t) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onNext(MovieDetailsResponse movieDetailsResponse) {
+                        movieResponse = movieDetailsResponse;
+                        genresList = movieDetailsResponse.getGenres();
+                        companiesList = movieDetailsResponse.getProduction_companies();
+                    }
+                });
     }
 
     private void setData() {

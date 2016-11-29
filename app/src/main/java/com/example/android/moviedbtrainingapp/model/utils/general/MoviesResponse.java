@@ -10,12 +10,16 @@ import java.util.List;
 public class MoviesResponse implements Serializable {
 
     @Expose
+    private
     String page;
     @Expose
+    private
     List<Movie> results;
     @Expose
+    private
     String total_results;
     @Expose
+    private
     String total_pages;
 
     public String getPage() {

@@ -8,8 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.moviedbtrainingapp.R;
 import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
@@ -31,17 +32,19 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieClickListener {
 
-    @BindView(R.id.movieList) RecyclerView movieRecycle;
-    @BindView(R.id.recyclerProgressBar) ProgressBar spinner;
-    MovieAdapter adapter;
+    @BindView(R.id.movieList)
+    RecyclerView movieRecycle;
+    @BindView(R.id.recyclerProgressBar)
+    ProgressBar spinner;
+    private MovieAdapter adapter;
     private boolean loading = true;
-    int pastVisibleItems, visibleItemCount, totalItemCount;
-    int topRatedPage = 1;
-    int popularPage = 1;
-    int page = 1;
-    List<Movie> topRatedMovies;
-    List<Movie> popularMovies;
-    LinearLayoutManager movieLinearManager;
+    private int pastVisibleItems, visibleItemCount, totalItemCount;
+    private int topRatedPage = 1;
+    private int popularPage = 1;
+    private int page = 1;
+    private List<Movie> topRatedMovies;
+    private List<Movie> popularMovies;
+    private LinearLayoutManager movieLinearManager;
     private String moviesOrder = Constants.MOVIES_ORDER.TOP_MOVIES;
 
     @Override
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             page = popularPage;
             moviesOrder = Constants.MOVIES_ORDER.POPULAR_MOVIES;
             if (popularMovies.isEmpty()) {
-               downloadMoviesData();
+                downloadMoviesData();
             } else {
                 adapter.getMovies(popularMovies);
                 adapter.notifyDataSetChanged();

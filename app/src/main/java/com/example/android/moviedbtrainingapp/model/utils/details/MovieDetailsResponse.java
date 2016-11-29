@@ -8,26 +8,36 @@ import java.util.List;
 public class MovieDetailsResponse implements Serializable {
 
     @Expose
-    String backdrop_path;
+    private String backdrop_path;
     @Expose
+    private
     List<MovieGenres> genres;
     @Expose
+    private
     List<MovieCompanies> production_companies;
     @Expose
+    private
     String original_title;
     @Expose
+    private
     double popularity;
     @Expose
+    private
     double vote_average;
     @Expose
+    private
     int vote_count;
     @Expose
+    private
     String release_date;
     @Expose
+    private
     String tagline;
     @Expose
+    private
     String overview;
     @Expose
+    private
     int revenue;
 
     public int getRevenue() {

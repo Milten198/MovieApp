@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class MovieCompanies implements Serializable {
 
     @Expose
+    private
     String name;
 
     public String getName() {

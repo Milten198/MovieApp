@@ -9,6 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
+import rx.Observer;
 
 public interface MovieCallback {
 
@@ -16,5 +17,5 @@ public interface MovieCallback {
     Observable<MoviesResponse> getMovies(@Path("orderBy") String orderBy, @Query("api_key") String apiKey, @Query("page") int page);
 
     @GET("movie/{id}")
-    Call<MovieDetailsResponse> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
+    Observable<MovieDetailsResponse> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
 }
