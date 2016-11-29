@@ -8,15 +8,23 @@ import java.io.Serializable;
 public class Movie implements Serializable {
 
     @Expose
+    private
     String title;
     @Expose
+    private
     double popularity;
     @Expose
+    private
     double vote_average;
     @Expose
+    private
     String poster_path;
     @Expose
+    private
     int id;
+    @Expose
+    private
+    int vote_count;
 
     public int getId() {
         return id;
@@ -34,8 +42,7 @@ public class Movie implements Serializable {
         this.vote_count = vote_count;
     }
 
-    @Expose
-    int vote_count;
+
 
     public String getPoster_path() {
         return poster_path;
