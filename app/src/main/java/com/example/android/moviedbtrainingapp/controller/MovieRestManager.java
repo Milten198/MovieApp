@@ -17,6 +17,7 @@ public class MovieRestManager {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(Constants.HTTP.BASE_URL)
+                    .client(MyClientBuilder.createClient())
                     .build();
         }
         return retrofit;

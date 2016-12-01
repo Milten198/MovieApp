@@ -19,12 +19,14 @@ import com.example.android.moviedbtrainingapp.model.callback.MovieCallback;
 import com.example.android.moviedbtrainingapp.model.utils.Constants;
 import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
 import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
+import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Stetho.initialize(Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build());
+
         setContentView(R.layout.activity_main);
         topRatedMovies = new ArrayList<>();
         popularMovies = new ArrayList<>();
