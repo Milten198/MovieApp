@@ -1,4 +1,4 @@
-package com.example.android.moviedbtrainingapp.model.adapter;
+package com.example.android.moviedbtrainingapp.presenter.adapter;
 
 
 import android.content.Context;
@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.moviedbtrainingapp.R;
-import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
+import com.example.android.moviedbtrainingapp.model.general.Movie;
 
 import java.util.Collections;
 import java.util.List;
 
 import static com.example.android.moviedbtrainingapp.model.utils.Constants.BACK_DROP;
-import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumber;
+import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumbers;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
@@ -43,8 +43,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     public void onBindViewHolder(MovieHolder holder, int position) {
         Movie currentMovie = movies.get(position);
         holder.titleView.setText(currentMovie.getTitle());
-        holder.popularityView.setText("Popularity: " + twoDecimalNumber(currentMovie.getPopularity()));
-        holder.avarageView.setText("Average vote: " + twoDecimalNumber(currentMovie.getVote_average()));
+        holder.popularityView.setText("Popularity: " + twoDecimalNumbers(currentMovie.getPopularity()));
+        holder.avarageView.setText("Average vote: " + twoDecimalNumbers(currentMovie.getVote_average()));
         Glide.with(context).load(BACK_DROP.BACK_DROP_PATH + currentMovie.getPoster_path())
                 .into(holder.backDropView);
     }

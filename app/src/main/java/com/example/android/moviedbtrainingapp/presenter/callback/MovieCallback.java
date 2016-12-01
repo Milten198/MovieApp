@@ -1,15 +1,13 @@
-package com.example.android.moviedbtrainingapp.model.callback;
+package com.example.android.moviedbtrainingapp.presenter.callback;
 
 
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
-import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
+import com.example.android.moviedbtrainingapp.model.details.MovieDetailsResponse;
+import com.example.android.moviedbtrainingapp.model.general.MoviesResponse;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
-import rx.Observer;
 
 public interface MovieCallback {
 

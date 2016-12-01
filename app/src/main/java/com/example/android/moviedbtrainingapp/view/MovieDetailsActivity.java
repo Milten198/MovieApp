@@ -1,4 +1,4 @@
-package com.example.android.moviedbtrainingapp.ui;
+package com.example.android.moviedbtrainingapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.moviedbtrainingapp.R;
-import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
-import com.example.android.moviedbtrainingapp.model.callback.MovieCallback;
+import com.example.android.moviedbtrainingapp.presenter.MovieRestManager;
+import com.example.android.moviedbtrainingapp.presenter.callback.MovieCallback;
 import com.example.android.moviedbtrainingapp.model.utils.Constants;
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieCompanies;
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieDetailsResponse;
-import com.example.android.moviedbtrainingapp.model.utils.details.MovieGenres;
+import com.example.android.moviedbtrainingapp.model.details.MovieCompanies;
+import com.example.android.moviedbtrainingapp.model.details.MovieDetailsResponse;
+import com.example.android.moviedbtrainingapp.model.details.MovieGenres;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -29,7 +29,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.example.android.moviedbtrainingapp.model.utils.Constants.MOVIE_REFERENCE.MOVIE;
-import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumber;
+import static com.example.android.moviedbtrainingapp.model.utils.NumberRounder.twoDecimalNumbers;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -100,8 +100,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Glide.with(this).load(Constants.BACK_DROP.BACK_DROP_PATH + movieResponse.getBackdrop_path())
                 .into(poster);
         title.setText(movieResponse.getOriginal_title());
-        averageVote.setText("Average vote: " + twoDecimalNumber(movieResponse.getVote_average()));
-        popularity.setText("Popularity: " + twoDecimalNumber(movieResponse.getPopularity()));
+        averageVote.setText("Average vote: " + twoDecimalNumbers(movieResponse.getVote_average()));
+        popularity.setText("Popularity: " + twoDecimalNumbers(movieResponse.getPopularity()));
         voted.setText("Voted: " + movieResponse.getVote_count());
         overview.setText(movieResponse.getOverview());
         tagline.setText(movieResponse.getTagline());

@@ -1,4 +1,4 @@
-package com.example.android.moviedbtrainingapp.controller;
+package com.example.android.moviedbtrainingapp.presenter;
 
 
 import com.example.android.moviedbtrainingapp.model.utils.Constants;

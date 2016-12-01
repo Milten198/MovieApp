@@ -1,24 +1,24 @@
-package com.example.android.moviedbtrainingapp.ui;
+package com.example.android.moviedbtrainingapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.moviedbtrainingapp.R;
-import com.example.android.moviedbtrainingapp.controller.MovieRestManager;
-import com.example.android.moviedbtrainingapp.model.adapter.MovieAdapter;
-import com.example.android.moviedbtrainingapp.model.callback.MovieCallback;
+import com.example.android.moviedbtrainingapp.model.general.Movie;
+import com.example.android.moviedbtrainingapp.model.general.MoviesResponse;
 import com.example.android.moviedbtrainingapp.model.utils.Constants;
-import com.example.android.moviedbtrainingapp.model.utils.general.Movie;
-import com.example.android.moviedbtrainingapp.model.utils.general.MoviesResponse;
+import com.example.android.moviedbtrainingapp.presenter.MovieRestManager;
+import com.example.android.moviedbtrainingapp.presenter.adapter.MovieAdapter;
+import com.example.android.moviedbtrainingapp.presenter.callback.MovieCallback;
 import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private List<Movie> popularMovies;
     private LinearLayoutManager movieLinearManager;
     private String moviesOrder = Constants.MOVIES_ORDER.TOP_MOVIES;
+    @BindView(R.id.swipeIt)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         ButterKnife.bind(this);
         config();
         downloadMoviesData();
+
+        swipeRefreshLayout.setOnRefreshListener(this::downloadMoviesData);
     }
 
     @Override
@@ -108,12 +111,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 .subscribe(new Observer<MoviesResponse>() {
                     @Override
                     public void onCompleted() {
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        loadingFailure();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -175,6 +179,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra(Constants.MOVIE_REFERENCE.MOVIE, movieId);
         startActivity(intent);
+    }
+
+    public void loadingFailure() {
+        Toast.makeText(getApplicationContext(), "Failed to load data. Check your Internet connection", Toast.LENGTH_LONG).show();
+        spinner.setVisibility(View.GONE);
+        loading = false;
     }
 
 }

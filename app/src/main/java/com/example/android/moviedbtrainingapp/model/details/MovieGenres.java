@@ -1,4 +1,4 @@
-package com.example.android.moviedbtrainingapp.model.utils.details;
+package com.example.android.moviedbtrainingapp.model.details;
 
 
 import com.google.gson.annotations.Expose;
