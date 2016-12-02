@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:title="@string/top_rated"
-        android:id="@+id/topRated"/>
-    <item android:title="@string/most_popular"
-        android:id="@+id/mostPopular"/>
-</menu>
